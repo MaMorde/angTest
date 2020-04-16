@@ -1,0 +1,36 @@
+.todo-input {
+  width: 100%;
+  padding: 10px 18px;
+  font-size: 18px;
+  margin-bottom: 16px;
+
+  &:focus {
+    outline: 0;
+  }
+}
+.d-table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 50px;
+}
+.d-tr {
+  display: table-row;
+}
+.trmain {
+  background: #a9a9a9;
+}
+.d-td {
+  display: table-cell;
+  text-align: center;
+
+  vertical-align: middle;
+  width: 33%;
+}
+
+.d-td:not(.no-p) {
+  padding: 4px;
+}
+.tstrong {
+  font-weight: bold;
+}
