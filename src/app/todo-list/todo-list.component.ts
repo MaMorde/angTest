@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Todo } from "../interfaces/todo";
 import { trigger, transition, animate, style } from "@angular/animations";
 import { TodosService } from "../services/todos.service";
+import { Subscription, Subject } from "rxjs";
 
 @Component({
   selector: "app-todo-list",
@@ -20,6 +21,8 @@ import { TodosService } from "../services/todos.service";
   ],
 })
 export class TodoListComponent implements OnInit {
+  sub: Subscription;
+  stream$: Subject<Todo[]> = new Subject<Todo[]>();
   todos: Todo[];
   todoTitle: string;
   todoPrice: number;
@@ -27,8 +30,14 @@ export class TodoListComponent implements OnInit {
   beforeEditCacheTitle: string;
   beforeEditCachePrice: number;
 
-  constructor(private todosSetvice: TodosService) {}
-
+  constructor(private todosSetvice: TodosService) {
+    this.sub = this.stream$.subscribe((value) => {
+      console.log(value);
+    });
+  }
+  next() {
+    this.stream$.next(this.todos);
+  }
   ngOnInit(): void {
     this.todos = this.todosSetvice.initTodos();
     this.beforeEditCacheTitle = "";
@@ -59,10 +68,12 @@ export class TodoListComponent implements OnInit {
 
     this.todoTitle = "";
     this.todoPrice = null;
+    this.next();
   }
   deleteT(id: string): void {
     this.todosSetvice.removeTodo(id);
     this.todos = this.todos.filter((todo) => todo.id !== id);
+    this.next();
   }
   editTodoTitle(todo: Todo): void {
     this.beforeEditCacheTitle = todo.title;
