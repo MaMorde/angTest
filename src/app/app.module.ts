@@ -10,8 +10,7 @@ import { TodoListComponent } from "./todo-list/todo-list.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule } from "@angular/forms";
 
-import { AutofocusFixModule } from "ngx-autofocus-fix";
-import { TodoItemComponent } from './todo-item/todo-item.component';
+import { TodoItemComponent } from "./todo-item/todo-item.component";
 
 @NgModule({
   declarations: [AppComponent, TodoListComponent, TodoItemComponent],
@@ -22,7 +21,6 @@ import { TodoItemComponent } from './todo-item/todo-item.component';
     MatCheckboxModule,
     MatInputModule,
     MatButtonModule,
-    AutofocusFixModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
