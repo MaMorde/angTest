@@ -42,7 +42,7 @@
   <mat-checkbox [(ngModel)]="todo.completed"></mat-checkbox>
 </div>
 <div class="d-td" [ngClass]="{ completedBtn: todo.completed }">
-  <button class="btnDelete" mat-raised-button (click)="deleteT(todo.id)">
+  <button class="btnDelete" mat-raised-button (click)="deleteT(todo)">
     Удалить
   </button>
 </div>

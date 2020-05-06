@@ -30,7 +30,7 @@ export class TodoListComponent implements OnInit {
   beforeEditCacheTitle: string;
   beforeEditCachePrice: number;
 
-  constructor(private todosSetvice: TodosService) {
+  constructor(private todosService: TodosService) {
     this.sub = this.stream$.subscribe((value) => {
       console.log(value);
     });
@@ -39,7 +39,7 @@ export class TodoListComponent implements OnInit {
     this.stream$.next(this.todos);
   }
   ngOnInit(): void {
-    this.todos = this.todosSetvice.initTodos();
+    this.todos = this.todosService.initTodos();
     this.beforeEditCacheTitle = "";
     this.beforeEditCachePrice = null;
     this.todoTitle = "";
@@ -54,8 +54,7 @@ export class TodoListComponent implements OnInit {
       return;
     // this.todos.push();
     // const todo = new Todo(this.todoTitle, this.todoPrice);
-
-    this.todosSetvice.addLocalTodo({
+    let newTodo = {
       id: "_" + Math.random().toString(36).substr(2, 9),
       title: this.todoTitle,
       price: this.todoPrice,
@@ -64,15 +63,17 @@ export class TodoListComponent implements OnInit {
         editingTitle: false,
         editingPrice: false,
       },
-    });
+    };
+    this.todosService.addLocalTodo(newTodo);
 
     this.todoTitle = "";
     this.todoPrice = null;
+
     this.next();
   }
-  deleteT(id: string): void {
-    this.todosSetvice.removeTodo(id);
-    this.todos = this.todos.filter((todo) => todo.id !== id);
+  deleteT(todo: Todo): void {
+    this.todosService.removeTodo(todo.id);
+    this.todos = this.todosService.initTodos();
     this.next();
   }
   editTodoTitle(todo: Todo): void {
