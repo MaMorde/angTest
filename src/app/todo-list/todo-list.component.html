@@ -1,41 +1,56 @@
-<input
-  type="text"
-  class="todo-input"
-  placeholder="Введите название..."
-  [(ngModel)]="todoTitle"
-/>
-<input
-  type="number"
-  class="todo-input"
-  placeholder="Введите цену..."
-  [(ngModel)]="todoPrice"
-/>
-<button mat-raised-button (click)="addTodo()">Добавить</button>
+<div class="inner">
+  <mat-form-field class="example-full-width">
+    <input
+      matInput
+      autocomplete="off"
+      type="text"
+      class="todo-input"
+      placeholder="Введите название..."
+      [(ngModel)]="todoTitle"
+      (keydown.enter)="addTodo()"
+    />
+  </mat-form-field>
 
-<div class="d-table">
-  <div class="d-tr trmain">
-    <div class="d-td tstrong">Предмет</div>
-    <div class="d-td tstrong">Цена</div>
-    <div class="d-td tstrong">Куплено</div>
-    <div class="d-td tstrong"></div>
-  </div>
+  <mat-form-field class="example-full-width">
+    <input
+      matInput
+      type="number"
+      class="todo-input"
+      placeholder="Введите цену..."
+      [(ngModel)]="todoPrice"
+      (keydown.enter)="addTodo()"
+    />
+  </mat-form-field>
+  <button mat-raised-button (click)="addTodo()">
+    Добавить
+  </button>
 
-  <todo-item
-    class="d-tr trsec"
-    *ngFor="let todo of todos"
-    [todo]="todo"
-    (checkedItemTitle)="doneEditTitle($event)"
-    (checkedItemPrice)="doneEditPrice($event)"
-    (doubleClickedItemTitle)="editTodoTitle($event)"
-    (doubleClickedItemPrice)="editTodoPrice($event)"
-    (cancelledItemTitle)="cancelEditTitle($event)"
-    (cancelledItemPrice)="cancelEditPrice($event)"
-    (deletedItem)="deleteT($event)"
-  ></todo-item>
-  <div class="d-tr trmain">
-    <div class="d-td tstrong">Итого:</div>
-    <div class="d-td">{{ sum() }}</div>
-    <div class="d-td"></div>
-    <div class="d-td"></div>
+  <div class="d-table">
+    <div class="d-tr trmain">
+      <div class="d-td tstrong">Предмет</div>
+      <div class="d-td tstrong">Цена</div>
+      <div class="d-td tstrong">Куплено</div>
+      <div class="d-td tstrong"></div>
+    </div>
+
+    <todo-item
+      class="d-tr trsec"
+      *ngFor="let todo of todos"
+      [todo]="todo"
+      (checkedItemTitle)="doneEditTitle($event)"
+      (checkedItemPrice)="doneEditPrice($event)"
+      (doubleClickedItemTitle)="editTodoTitle($event)"
+      (doubleClickedItemPrice)="editTodoPrice($event)"
+      (cancelledItemTitle)="cancelEditTitle($event)"
+      (cancelledItemPrice)="cancelEditPrice($event)"
+      (deletedItem)="deleteT($event)"
+      (completedItemTodo)="completedTodos($event)"
+    ></todo-item>
+    <div class="d-tr trmain">
+      <div class="d-td tstrong">Итого:</div>
+      <div class="d-td tstrong">{{ sum() }}</div>
+      <div class="d-td"></div>
+      <div class="d-td"></div>
+    </div>
   </div>
 </div>

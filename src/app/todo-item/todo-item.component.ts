@@ -18,6 +18,8 @@ export class TodoItemComponent implements OnInit {
   @Output() cancelledItemTitle = new EventEmitter();
   @Output() cancelledItemPrice = new EventEmitter();
 
+  @Output() completedItemTodo = new EventEmitter();
+
   @Output() deletedItem = new EventEmitter();
 
   constructor() {}
@@ -47,5 +49,8 @@ export class TodoItemComponent implements OnInit {
 
   deleteT(id): void {
     this.deletedItem.emit(id);
+  }
+  completedTodos(todo: Todo) {
+    this.completedItemTodo.emit(todo);
   }
 }

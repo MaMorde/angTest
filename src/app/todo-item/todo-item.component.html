@@ -11,7 +11,7 @@
     <input
       type="text"
       [(ngModel)]="todo.title"
-      (blur)="doneEditTitle(todo)"
+      (mouseleave)="doneEditTitle(todo)"
       (keyup.enter)="doneEditTitle(todo)"
       (keyup.escape)="cancelEditTitle(todo)"
       autofocus
@@ -31,7 +31,7 @@
     <input
       type="number"
       [(ngModel)]="todo.price"
-      (blur)="doneEditPrice(todo)"
+      (mouseleave)="doneEditPrice(todo)"
       (keyup.enter)="doneEditPrice(todo)"
       (keyup.escape)="cancelEditPrice(todo)"
       autofocus
@@ -39,7 +39,10 @@
   </div>
 </ng-template>
 <div class="d-td">
-  <mat-checkbox [(ngModel)]="todo.completed"></mat-checkbox>
+  <mat-checkbox
+    (click)="completedTodos(todo)"
+    [(ngModel)]="todo.completed"
+  ></mat-checkbox>
 </div>
 <div class="d-td" [ngClass]="{ completedBtn: todo.completed }">
   <button class="btnDelete" mat-raised-button (click)="deleteT(todo)">

@@ -21,6 +21,7 @@ import { Subscription, Subject } from "rxjs";
   ],
 })
 export class TodoListComponent implements OnInit {
+  displayedColumns: string[] = ["Название", "Цена", "Куплено", "Удалить"];
   sub: Subscription;
   stream$: Subject<Todo[]> = new Subject<Todo[]>();
   todos: Todo[];
@@ -52,8 +53,7 @@ export class TodoListComponent implements OnInit {
       this.todoPrice == null
     )
       return;
-    // this.todos.push();
-    // const todo = new Todo(this.todoTitle, this.todoPrice);
+
     let newTodo = {
       id: "_" + Math.random().toString(36).substr(2, 9),
       title: this.todoTitle,
@@ -71,40 +71,50 @@ export class TodoListComponent implements OnInit {
 
     this.next();
   }
+
   deleteT(todo: Todo): void {
     this.todosService.removeTodo(todo.id);
     this.todos = this.todosService.initTodos();
     this.next();
   }
+
+  completedTodos(todo: Todo): void {
+    this.todosService.completedLocalTodo(todo);
+    this.todos = this.todosService.initTodos();
+    this.next();
+  }
+
   editTodoTitle(todo: Todo): void {
     this.beforeEditCacheTitle = todo.title;
-    todo.editing.editingTitle = true;
+    this.todosService.editTodoTitleLocal(todo);
   }
+
   doneEditTitle(todo: Todo): void {
     if (todo.title.trim().length === 0) {
       todo.title = this.beforeEditCacheTitle;
     }
-    todo.editing.editingTitle = false;
+    this.todosService.doneEditTitleLocal(todo);
   }
+
   cancelEditTitle(todo: Todo): void {
     todo.title = this.beforeEditCacheTitle;
-
-    todo.editing.editingTitle = false;
+    this.todosService.doneEditTitleLocal(todo);
   }
+
   editTodoPrice(todo: Todo): void {
     this.beforeEditCachePrice = todo.price;
-    todo.editing.editingPrice = true;
+    this.todosService.editTodoPriceLocal(todo);
   }
   doneEditPrice(todo: Todo): void {
     if (todo.price === null) {
       todo.price = this.beforeEditCachePrice;
     }
-    todo.editing.editingPrice = false;
+    this.todosService.doneEditPriceLocal(todo);
   }
+
   cancelEditPrice(todo: Todo): void {
     todo.price = this.beforeEditCachePrice;
-
-    todo.editing.editingPrice = false;
+    this.todosService.cancelEditPriceLocal(todo);
   }
 
   sum() {
