@@ -3,6 +3,7 @@ import { Todo } from "../interfaces/todo";
 import { trigger, transition, animate, style } from "@angular/animations";
 import { TodosService } from "../services/todos.service";
 import { Subscription, Subject } from "rxjs";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: "app-todo-list",
@@ -69,6 +70,7 @@ export class TodoListComponent implements OnInit {
     this.todoTitle = "";
     this.todoPrice = null;
 
+    this.todos = this.todosService.initTodos();
     this.next();
   }
 

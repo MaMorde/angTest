@@ -25,32 +25,97 @@
     Добавить
   </button>
 
-  <div class="d-table">
-    <div class="d-tr trmain">
-      <div class="d-td tstrong">Предмет</div>
-      <div class="d-td tstrong">Цена</div>
-      <div class="d-td tstrong">Куплено</div>
-      <div class="d-td tstrong"></div>
-    </div>
+  <table mat-table [dataSource]="todos" class="mat-elevation-z8 mt-5">
+    <!-- Item Column -->
+    <ng-container matColumnDef="Название">
+      <th class="text-center" mat-header-cell *matHeaderCellDef>Название</th>
+      <td class="text-center" mat-cell *matCellDef="let todo">
+        <div
+          *ngIf="!todo.editing.editingTitle; else editingTodoTitle"
+          [ngClass]="{ completed: todo.completed }"
+          (dblclick)="editTodoTitle(todo)"
+        >
+          {{ todo.title }}
+        </div>
+        <ng-template #editingTodoTitle>
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                [(ngModel)]="todo.title"
+                (mouseleave)="doneEditTitle(todo)"
+                (keyup.enter)="doneEditTitle(todo)"
+                (keyup.escape)="cancelEditTitle(todo)"
+                autofocus
+              />
+            </mat-form-field>
+          </div>
+        </ng-template>
+      </td>
+      <td class="text-center" mat-footer-cell *matFooterCellDef>Total</td>
+    </ng-container>
 
-    <todo-item
-      class="d-tr trsec"
-      *ngFor="let todo of todos"
-      [todo]="todo"
-      (checkedItemTitle)="doneEditTitle($event)"
-      (checkedItemPrice)="doneEditPrice($event)"
-      (doubleClickedItemTitle)="editTodoTitle($event)"
-      (doubleClickedItemPrice)="editTodoPrice($event)"
-      (cancelledItemTitle)="cancelEditTitle($event)"
-      (cancelledItemPrice)="cancelEditPrice($event)"
-      (deletedItem)="deleteT($event)"
-      (completedItemTodo)="completedTodos($event)"
-    ></todo-item>
-    <div class="d-tr trmain">
-      <div class="d-td tstrong">Итого:</div>
-      <div class="d-td tstrong">{{ sum() }}</div>
-      <div class="d-td"></div>
-      <div class="d-td"></div>
-    </div>
-  </div>
+    <!-- Cost Column -->
+    <ng-container matColumnDef="Цена">
+      <th class="text-center" mat-header-cell *matHeaderCellDef>Цена</th>
+      <td class="text-center" mat-cell *matCellDef="let todo">
+        <div
+          *ngIf="!todo.editing.editingPrice; else editingTodoPrice"
+          [ngClass]="{ completed: todo.completed }"
+          (dblclick)="editTodoPrice(todo)"
+        >
+          {{ todo.price | currency }}
+        </div>
+        <ng-template #editingTodoPrice>
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="todo.price"
+                (mouseleave)="doneEditPrice(todo)"
+                (keyup.enter)="doneEditPrice(todo)"
+                (keyup.escape)="cancelEditPrice(todo)"
+                autofocus
+              />
+            </mat-form-field>
+          </div>
+        </ng-template>
+      </td>
+      <td class="text-center" mat-footer-cell *matFooterCellDef>
+        {{ sum() | currency }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Куплено">
+      <th class="text-center" mat-header-cell *matHeaderCellDef>Куплено</th>
+      <td class="text-center" mat-cell *matCellDef="let todo">
+        <mat-checkbox
+          [(ngModel)]="todo.completed"
+          (click)="completedTodos(todo)"
+        ></mat-checkbox>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="Удалить">
+      <th class="text-center" mat-header-cell *matHeaderCellDef></th>
+      <td class="text-center" mat-cell *matCellDef="let todo">
+        <button
+          [ngClass]="{ completedBtn: todo.completed }"
+          class="btnDelete"
+          mat-raised-button
+          (click)="deleteT(todo)"
+        >
+          Удалить
+        </button>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
 </div>

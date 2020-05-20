@@ -13,10 +13,8 @@ import { TodoListComponent } from "./todo-list/todo-list.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule } from "@angular/forms";
 
-import { TodoItemComponent } from "./todo-item/todo-item.component";
-
 @NgModule({
-  declarations: [AppComponent, TodoListComponent, TodoItemComponent],
+  declarations: [AppComponent, TodoListComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
