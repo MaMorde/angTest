@@ -21,9 +21,14 @@
       (keydown.enter)="addTodo()"
     />
   </mat-form-field>
-  <button mat-raised-button (click)="addTodo()">
-    Добавить
-  </button>
+  <div class="buttonsAddClear mt-3">
+    <button mat-raised-button (click)="addTodo()">
+      Добавить
+    </button>
+    <button mat-raised-button (click)="clearTodoList()">
+      Очистить список
+    </button>
+  </div>
 
   <table mat-table [dataSource]="todos" class="mat-elevation-z8 mt-5">
     <!-- Item Column -->
@@ -39,7 +44,7 @@
         </div>
         <ng-template #editingTodoTitle>
           <div>
-            <mat-form-field>
+            <mat-form-field style="width: 50%;">
               <input
                 matInput
                 type="text"
@@ -53,7 +58,9 @@
           </div>
         </ng-template>
       </td>
-      <td class="text-center" mat-footer-cell *matFooterCellDef>Total</td>
+      <td class="text-center" mat-footer-cell *matFooterCellDef>
+        <strong>Всего:</strong>
+      </td>
     </ng-container>
 
     <!-- Cost Column -->
@@ -69,7 +76,7 @@
         </div>
         <ng-template #editingTodoPrice>
           <div>
-            <mat-form-field>
+            <mat-form-field style="width: 50%;">
               <input
                 matInput
                 type="number"
@@ -84,7 +91,7 @@
         </ng-template>
       </td>
       <td class="text-center" mat-footer-cell *matFooterCellDef>
-        {{ sum() | currency }}
+        <strong>{{ sum() | currency }}</strong>
       </td>
     </ng-container>
 

@@ -49,4 +49,8 @@ export class TodosService {
     todo.editing.editingPrice = false;
     localStorage.setItem("todos", JSON.stringify(this.todos));
   }
+  public clearLocalTodoList(): void {
+    this.todos = [];
+    localStorage.setItem("todos", JSON.stringify(this.todos));
+  }
 }
