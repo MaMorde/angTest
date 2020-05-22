@@ -1,0 +1,18 @@
+.mat-card {
+  width: 500px;
+}
+mat-card-header {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.main {
+  display: flex;
+  justify-content: center;
+}
+mat-card-actions {
+  display: grid;
+  button {
+    font-size: 16px;
+  }
+}

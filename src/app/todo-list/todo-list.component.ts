@@ -2,8 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { Todo } from "../interfaces/todo";
 import { trigger, transition, animate, style } from "@angular/animations";
 import { TodosService } from "../services/todos.service";
+import { AuthService } from "../services/auth.service";
 import { Subscription, Subject } from "rxjs";
-import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-todo-list",
@@ -22,7 +23,13 @@ import { MatTableDataSource } from "@angular/material/table";
   ],
 })
 export class TodoListComponent implements OnInit {
-  displayedColumns: string[] = ["Название", "Цена", "Куплено", "Удалить"];
+  displayedColumns: string[] = [
+    "Название",
+    "Цена",
+    "Куплено",
+    "Удалить",
+    "Добавил",
+  ];
   sub: Subscription;
   stream$: Subject<Todo[]> = new Subject<Todo[]>();
   todos: Todo[];
@@ -32,7 +39,11 @@ export class TodoListComponent implements OnInit {
   beforeEditCacheTitle: string;
   beforeEditCachePrice: number;
 
-  constructor(private todosService: TodosService) {
+  constructor(
+    private todosService: TodosService,
+    private AuthService: AuthService,
+    private router: Router
+  ) {
     this.sub = this.stream$.subscribe((value) => {
       console.log(value);
     });
@@ -60,6 +71,7 @@ export class TodoListComponent implements OnInit {
       title: this.todoTitle,
       price: this.todoPrice,
       completed: false,
+      user: this.userLogged(),
       editing: {
         editingTitle: false,
         editingPrice: false,
@@ -71,6 +83,7 @@ export class TodoListComponent implements OnInit {
     this.todoPrice = null;
 
     this.todos = this.todosService.initTodos();
+
     this.next();
   }
   clearTodoList() {
@@ -130,5 +143,12 @@ export class TodoListComponent implements OnInit {
         return Number(currentValue.price) + Number(totalValue);
       }, 0);
     return total;
+  }
+  userLogged(): string {
+    return this.AuthService.logged;
+  }
+  logOut() {
+    this.AuthService.logOut();
+    this.router.navigate(["/"]);
   }
 }
