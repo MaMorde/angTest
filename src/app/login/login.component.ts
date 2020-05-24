@@ -22,11 +22,12 @@ export class LoginComponent implements OnInit {
       let userFound = false;
       for (let i = 0; i < eval(localStorage.users).length; i++) {
         if (
-          eval(localStorage.users)[i].username == this.username &&
+          eval(localStorage.users)[i].username == this.username.trim() &&
           eval(localStorage.users)[i].password == this.password
         ) {
           userFound = true;
           this.AuthService.logged = this.username;
+          this.AuthService.isAuth = true;
           this.username = this.password = "";
           this.router.navigate(["todolist"]);
           break;

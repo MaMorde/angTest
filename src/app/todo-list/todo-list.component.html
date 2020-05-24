@@ -19,6 +19,8 @@
       placeholder="Введите цену..."
       [(ngModel)]="todoPrice"
       (keydown.enter)="addTodo()"
+      min="0"
+      max="1000000"
     />
   </mat-form-field>
   <div class="buttonsAddClear mt-3">
@@ -53,6 +55,7 @@
                 (keyup.enter)="doneEditTitle(todo)"
                 (keyup.escape)="cancelEditTitle(todo)"
                 autofocus
+                maxlength="40"
               />
             </mat-form-field>
           </div>
@@ -136,7 +139,7 @@
 </div>
 
 <div class="logout text-center mt-5">
-  <button mat-raised-button (click)="logOut()">
+  <button mat-raised-button (click)="this.logOutUser()">
     Выйти
   </button>
 </div>

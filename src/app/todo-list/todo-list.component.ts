@@ -60,11 +60,27 @@ export class TodoListComponent implements OnInit {
   }
   addTodo(): void {
     if (
-      this.todoTitle == null ||
-      this.todoTitle.trim() == "" ||
+      (this.todoTitle == null || this.todoTitle.trim() == "") &&
       this.todoPrice == null
-    )
+    ) {
+      alert("Введите значения!");
       return;
+    } else if (this.todoPrice < 0) {
+      alert("Введите положительное число!");
+      return;
+    } else if (this.todoPrice > 1000000) {
+      alert("Максимальная сумма 1000000!");
+      return;
+    } else if (
+      this.todoPrice &&
+      (this.todoTitle.trim() == "" || this.todoTitle == null)
+    ) {
+      alert("Введите название!");
+      return;
+    } else if (this.todoTitle && this.todoPrice == null) {
+      alert("Введите ценну");
+      return;
+    }
 
     let newTodo = {
       id: "_" + Math.random().toString(36).substr(2, 9),
@@ -127,6 +143,12 @@ export class TodoListComponent implements OnInit {
   doneEditPrice(todo: Todo): void {
     if (todo.price === null) {
       todo.price = this.beforeEditCachePrice;
+    } else if (todo.price < 0) {
+      alert("Введите положительное значение!");
+      return;
+    } else if (todo.price > 1000000) {
+      alert("Максимальное число 1000000!");
+      return;
     }
     this.todosService.doneEditPriceLocal(todo);
   }
@@ -147,8 +169,7 @@ export class TodoListComponent implements OnInit {
   userLogged(): string {
     return this.AuthService.logged;
   }
-  logOut() {
+  logOutUser() {
     this.AuthService.logOut();
-    this.router.navigate(["/"]);
   }
 }
